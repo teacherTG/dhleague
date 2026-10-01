@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <base target="_top">
-    <!-- STREAMING_CHUNK:스타일 초기화... -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>2026학년도 스포츠리그</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
       body { background-color: #f8f9fa; font-family: 'Noto Sans KR', sans-serif; }
@@ -28,7 +29,6 @@
     <div class="container py-4">
       <h2 class="text-center mb-4">🏆 2026학년도 2학기 2,3학년 스포츠리그</h2>
       
-      <!-- STREAMING_CHUNK:전광판 링크 버튼들... -->
       <div class="d-flex justify-content-end gap-2 mb-2">
         <a href="https://teachertg.github.io/netscoreboard/" target="_blank" class="btn btn-outline-secondary rounded-circle shadow-sm" style="width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; text-decoration: none;" title="3학년 넷볼 전광판 열기">
           📺
@@ -50,7 +50,6 @@
         </li>
       </ul>
 
-      <!-- STREAMING_CHUNK:상단 관리자 토글... -->
       <div class="d-flex justify-content-between align-items-center mb-3">
         <div>
           <button class="btn btn-outline-success teacher-only d-none fw-bold me-2" id="btnManageRoster" onclick="openManageRosterModal()">
@@ -66,7 +65,6 @@
         </div>
       </div>
 
-      <!-- STREAMING_CHUNK:대진표 업로드 폼... -->
       <div class="card mb-4 teacher-only d-none border-primary" id="scheduleUploadPanel">
         <div class="card-header bg-primary text-white font-weight-bold">
           📁 경기 일정 / 대진표 엑셀 업로드
@@ -83,7 +81,6 @@
         </div>
       </div>
 
-      <!-- STREAMING_CHUNK:심판 일정 업로드 폼... -->
       <div class="card mb-4 teacher-only d-none border-dark" id="refereeUploadPanel">
         <div class="card-header bg-dark text-white font-weight-bold">
           📁 심판 일정표 엑셀 업로드 (.xlsx)
@@ -97,7 +94,6 @@
         </div>
       </div>
 
-      <!-- STREAMING_CHUNK:대진표 및 순위표... -->
       <div id="leagueSection">
         <div class="row">
           <div class="col-md-7 mb-4">
@@ -134,7 +130,6 @@
             </div>
           </div>
 
-          <!-- STREAMING_CHUNK:순위표 영역... -->
           <div class="col-md-5 mb-4">
             <div class="card shadow-sm mb-4">
               <div class="card-header bg-success text-white font-weight-bold">
@@ -157,7 +152,6 @@
         </div>
       </div>
 
-      <!-- STREAMING_CHUNK:심판 일정표... -->
       <div id="refereeSection" class="d-none">
         <div class="card shadow-sm">
           <div class="card-header bg-dark text-white fw-bold d-flex justify-content-between align-items-center">
@@ -196,7 +190,7 @@
       </div>
     </div>
 
-    <!-- STREAMING_CHUNK:명단 관리 모달... -->
+    <!-- 명단 관리 모달 -->
     <div class="modal fade" id="manageRosterModal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -259,7 +253,7 @@
       </div>
     </div>
 
-    <!-- STREAMING_CHUNK:점수 입력 전용 모달... -->
+    <!-- 점수 입력 모달 -->
     <div class="modal fade" id="scoreModal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -311,7 +305,7 @@
       </div>
     </div>
 
-    <!-- STREAMING_CHUNK:출전선수등록 전용 모달... -->
+    <!-- 출전선수 등록 모달 -->
     <div class="modal fade" id="attendanceModal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -324,7 +318,6 @@
               <span class="fw-bold text-dark">👥 선수 출전 체크 및 개인 카드 기록</span>
               <small class="text-muted d-none d-md-inline">* 이름을 클릭하면 출전 표시(노란색 음영) | 1회 ✔ | 2회 ✔✔</small>
             </div>
-            
             <div class="row mb-1 g-2 px-1">
               <div class="col-lg-6">
                 <div class="card border-primary h-100 shadow-sm">
@@ -351,7 +344,7 @@
       </div>
     </div>
 
-    <!-- STREAMING_CHUNK:심판 일정 수정 모달... -->
+    <!-- 심판 일정 수정 모달 -->
     <div class="modal fade" id="refereeEditModal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -405,31 +398,14 @@
       </div>
     </div>
 
-    <!-- STREAMING_CHUNK:자바스크립트 스크립트 시작... -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-      // 미리보기용 Mock
-      if (typeof google === 'undefined') {
-        console.warn("Google Apps Script environment not detected. Running in preview/mock mode.");
-        window.google = {
-          script: {
-            run: {
-              withSuccessHandler: function(handler) {
-                return new Proxy({}, {
-                  get: function(target, prop) {
-                    return function(...args) {
-                      if (typeof handler === 'function') {
-                        setTimeout(() => handler(null), 50); 
-                      }
-                    };
-                  }
-                });
-              }
-            }
-          }
-        };
-      }
-
+      // =========================================================
+      // ★ 필수 설정: 구글 앱스 스크립트(웹앱) URL을 아래에 입력하세요.
+      // (기존의 google.script.run 대신 이 URL을 통해 통신합니다)
+      // =========================================================
+      const GAS_WEB_APP_URL = "여기에_구글_웹앱_URL을_붙여넣으세요"; 
+      
       let currentGrade = '2';
       let currentGroup = 'A';
       let currentView = 'league';
@@ -439,7 +415,56 @@
 
       window.onload = function() { loadGradeData('2'); };
 
-      // STREAMING_CHUNK:탭 스위치 로직...
+      function callAPI(action, params = {}, method = 'GET') {
+        return new Promise((resolve, reject) => {
+          if (GAS_WEB_APP_URL === "여기에_구글_웹앱_URL을_붙여넣으세요" || GAS_WEB_APP_URL === "") {
+            alert("❌ 오류: 스크립트 상단에 GAS_WEB_APP_URL을 설정해야 합니다!");
+            return reject("URL NOT SET");
+          }
+
+          const handleResponse = async (res) => {
+            const text = await res.text();
+            try {
+              let json = JSON.parse(text);
+              if (json && json.error) {
+                console.error("서버 내부 에러:", json.error);
+                alert("서버 오류: " + json.error);
+                throw new Error(json.error);
+              }
+              return json;
+            } catch (err) {
+              console.error("서버 응답 오류 (JSON 파싱 실패):", text);
+              alert("❌ 통신 오류 발생!\n1. 구글 배포 시 [새 버전]으로 배포했는지\n2. 액세스 권한이 [모든 사용자]인지\n확인해주세요.");
+              throw new Error("Invalid response from server");
+            }
+          };
+
+          if (method === 'GET') {
+            let url = new URL(GAS_WEB_APP_URL);
+            url.searchParams.append('action', action);
+            for (let key in params) {
+              let value = typeof params[key] === 'object' ? JSON.stringify(params[key]) : params[key];
+              url.searchParams.append(key, value);
+            }
+            fetch(url, { redirect: "follow" })
+              .then(handleResponse)
+              .then(resolve)
+              .catch(err => { console.error(err); reject(err); });
+          } else {
+            // POST 방식 (데이터 저장 및 파일 업로드)
+            fetch(GAS_WEB_APP_URL, {
+              method: 'POST',
+              redirect: 'follow', // 구글 서버의 리다이렉션을 따라가기 위해 필수
+              headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // CORS 방어
+              body: JSON.stringify({ action: action, ...params })
+            })
+            .then(handleResponse)
+            .then(resolve)
+            .catch(err => { console.error(err); reject(err); });
+          }
+        });
+      }
+
       function switchMainTab(type) {
         document.getElementById('grade2-tab').classList.remove('active');
         document.getElementById('grade3-tab').classList.remove('active');
@@ -454,9 +479,7 @@
           document.getElementById('refereeSection').classList.remove('d-none');
           document.getElementById('scheduleUploadPanel').classList.add('d-none');
           
-          if (isTeacher) {
-            document.getElementById('refereeUploadPanel').classList.remove('d-none');
-          }
+          if (isTeacher) document.getElementById('refereeUploadPanel').classList.remove('d-none');
           loadRefereeSchedule();
         } else {
           currentView = 'league';
@@ -468,9 +491,7 @@
           document.getElementById('refereeSection').classList.add('d-none');
           document.getElementById('refereeUploadPanel').classList.add('d-none');
 
-          if (isTeacher) {
-            document.getElementById('scheduleUploadPanel').classList.remove('d-none');
-          }
+          if (isTeacher) document.getElementById('scheduleUploadPanel').classList.remove('d-none');
 
           loadGradeData(type);
         }
@@ -498,23 +519,19 @@
         let tabB = document.getElementById('groupB-tab');
 
         if (group === 'A') {
-          tabA.classList.add('active');
-          tabA.classList.remove('text-white');
-          tabB.classList.remove('active');
-          tabB.classList.add('text-white');
+          tabA.classList.add('active'); tabA.classList.remove('text-white');
+          tabB.classList.remove('active'); tabB.classList.add('text-white');
         } else {
-          tabB.classList.add('active');
-          tabB.classList.remove('text-white');
-          tabA.classList.remove('active');
-          tabA.classList.add('text-white');
+          tabB.classList.add('active'); tabB.classList.remove('text-white');
+          tabA.classList.remove('active'); tabA.classList.add('text-white');
         }
-        
         loadScheduleData();
       }
 
-      // STREAMING_CHUNK:일정 렌더링 (결과, 출전 버튼 분리 포함)...
       function loadScheduleData() {
-        google.script.run.withSuccessHandler(renderSchedule).getSchedule(currentGrade, currentGroup);
+        document.getElementById('scheduleBody').innerHTML = '<tr><td colspan="5">데이터를 불러오는 중입니다...</td></tr>';
+        callAPI('getSchedule', { grade: currentGrade, group: currentGroup })
+          .then(renderSchedule);
       }
 
       function renderSchedule(data) {
@@ -562,10 +579,12 @@
         });
       }
 
-      // STREAMING_CHUNK:순위표 렌더링...
       function loadStandingsData() {
-        google.script.run.withSuccessHandler(function(data) { renderStandingsContainer('standingsContainerA', data); }).getStandingsData(currentGrade, 'A');
-        google.script.run.withSuccessHandler(function(data) { renderStandingsContainer('standingsContainerB', data); }).getStandingsData(currentGrade, 'B');
+        callAPI('getStandingsData', { grade: currentGrade, group: 'A' })
+          .then(data => renderStandingsContainer('standingsContainerA', data));
+        
+        callAPI('getStandingsData', { grade: currentGrade, group: 'B' })
+          .then(data => renderStandingsContainer('standingsContainerB', data));
       }
 
       function renderStandingsContainer(containerId, data) {
@@ -630,9 +649,10 @@
         return wrapper;
       }
 
-      // STREAMING_CHUNK:심판 일정 관련 스크립트...
       function loadRefereeSchedule() {
-        google.script.run.withSuccessHandler(renderRefereeSchedule).getRefereeSchedule(currentRefGrade);
+        document.getElementById('refereeScheduleBody').innerHTML = '<tr><td colspan="8">심판 일정을 불러오는 중입니다...</td></tr>';
+        callAPI('getRefereeSchedule', { grade: currentRefGrade })
+          .then(renderRefereeSchedule);
       }
 
       function renderRefereeSchedule(data) {
@@ -647,6 +667,7 @@
 
         data.forEach(row => {
           let tr = document.createElement('tr');
+          let safeRowData = JSON.stringify(row).replace(/'/g, "&apos;").replace(/"/g, "&quot;");
           tr.innerHTML = `
             <td><strong>${row.date}</strong></td>
             <td>${row.time}</td>
@@ -656,7 +677,7 @@
             <td>${row.location}</td>
             <td class="small text-muted">${row.note}</td>
             <td class="teacher-only ${isTeacher ? '' : 'd-none'}">
-              <button class="btn btn-xs btn-outline-primary me-1" onclick="openEditRefereeModal(${JSON.stringify(row).replace(/"/g, '&quot;')})">수정</button>
+              <button class="btn btn-xs btn-outline-primary me-1" onclick='openEditRefereeModal(${safeRowData})'>수정</button>
               <button class="btn btn-xs btn-outline-danger" onclick="deleteRefereeRow(${row.rowIdx})">삭제</button>
             </td>
           `;
@@ -669,10 +690,12 @@
         if (fileInput.files.length === 0) return alert("심판 일정 엑셀 파일을 선택해 주세요.");
         let reader = new FileReader();
         reader.onload = function(e) {
-          google.script.run.withSuccessHandler(function(res) {
-            if(res) alert(res.message);
-            if (res && res.success) loadRefereeSchedule();
-          }).uploadRefereeScheduleFile(e.target.result.split(',')[1]);
+          let base64Data = e.target.result.split(',')[1];
+          callAPI('uploadRefereeScheduleFile', { fileData: base64Data }, 'POST')
+            .then(res => {
+              if(res) alert(res.message);
+              if (res && res.success) loadRefereeSchedule();
+            });
         };
         reader.readAsDataURL(fileInput.files[0]);
       }
@@ -716,25 +739,26 @@
           note: document.getElementById('refNote').value
         };
 
-        google.script.run.withSuccessHandler(function(res) {
-          if(res) alert(res.message);
-          if (res && res.success) {
-            bootstrap.Modal.getInstance(document.getElementById('refereeEditModal')).hide();
-            loadRefereeSchedule();
-          }
-        }).saveRefereeScheduleRow(rowIdx, rowData);
+        callAPI('saveRefereeScheduleRow', { rowIdx: rowIdx, rowData: rowData }, 'POST')
+          .then(res => {
+            if(res) alert(res.message);
+            if (res && res.success) {
+              bootstrap.Modal.getInstance(document.getElementById('refereeEditModal')).hide();
+              loadRefereeSchedule();
+            }
+          });
       }
 
       function deleteRefereeRow(rowIdx) {
         if (confirm("해당 심판 일정을 삭제하시겠습니까?")) {
-          google.script.run.withSuccessHandler(function(res) {
-            if(res) alert(res.message);
-            if (res && res.success) loadRefereeSchedule();
-          }).deleteRefereeScheduleRow(rowIdx);
+          callAPI('deleteRefereeScheduleRow', { rowIdx: rowIdx }, 'POST')
+            .then(res => {
+              if(res) alert(res.message);
+              if (res && res.success) loadRefereeSchedule();
+            });
         }
       }
 
-      // STREAMING_CHUNK:명단 직접 관리 팝업...
       function openManageRosterModal() {
         document.getElementById('editRosterGrade').value = currentGrade;
         updateEditSportOptions();
@@ -763,23 +787,24 @@
         let tbody = document.getElementById('editRosterTbody');
         tbody.innerHTML = '<tr><td colspan="3">명단을 불러오는 중...</td></tr>';
 
-        google.script.run.withSuccessHandler(function(players) {
-          tbody.innerHTML = '';
-          let targetKey = String(sport).replace(/[^가-힣a-zA-Z]/g, '').trim().substring(0, 2);
-          let filtered = (players || []).filter(p => {
-            let key = String(p.sport).replace(/[^가-힣a-zA-Z]/g, '').trim().substring(0, 2);
-            return key === targetKey;
-          });
+        callAPI('getClassRoster', { grade: grade, classNum: classNum })
+          .then(players => {
+            tbody.innerHTML = '';
+            let targetKey = String(sport).replace(/[^가-힣a-zA-Z]/g, '').trim().substring(0, 2);
+            let filtered = (players || []).filter(p => {
+              let key = String(p.sport).replace(/[^가-힣a-zA-Z]/g, '').trim().substring(0, 2);
+              return key === targetKey;
+            });
 
-          if (filtered.length === 0) {
-            addRosterRow();
-            return;
-          }
+            if (filtered.length === 0) {
+              addRosterRow();
+              return;
+            }
 
-          filtered.forEach((player) => {
-            appendRosterRowToTable(player.num, player.name);
+            filtered.forEach((player) => {
+              appendRosterRowToTable(player.num, player.name);
+            });
           });
-        }).getClassRoster(grade, classNum);
       }
 
       function appendRosterRowToTable(num, name) {
@@ -811,15 +836,15 @@
           }
         });
 
-        google.script.run.withSuccessHandler(function(res) {
-          if(res) alert(res.message);
-          if (res && res.success) {
-            bootstrap.Modal.getInstance(document.getElementById('manageRosterModal')).hide();
-          }
-        }).saveClassRoster(grade, classNum, sport, rosterData);
+        callAPI('saveClassRoster', { grade: grade, classNum: classNum, sport: sport, rosterData: rosterData }, 'POST')
+          .then(res => {
+            if(res) alert(res.message);
+            if (res && res.success) {
+              bootstrap.Modal.getInstance(document.getElementById('manageRosterModal')).hide();
+            }
+          });
       }
 
-      // STREAMING_CHUNK:분리된 점수 결과 입력 모달...
       function openScoreModal(group, date, sport, matchStr) {
         let teams = matchStr.split('vs').map(t => t.trim());
         let teamA = teams[0] || 'A팀';
@@ -831,23 +856,23 @@
         document.getElementById('scoreLabelTeamA').innerText = "[" + group + "조] " + teamA;
         document.getElementById('scoreLabelTeamB').innerText = "[" + group + "조] " + teamB;
 
-        google.script.run.withSuccessHandler(function(existingData) {
-          if (existingData) {
-            document.getElementById('scoreInputA').value = existingData.scoreA !== "" ? existingData.scoreA : 0;
-            document.getElementById('scoreInputB').value = existingData.scoreB !== "" ? existingData.scoreB : 0;
-            document.getElementById('warnInputA').value = existingData.teamA_warnings !== "" ? existingData.teamA_warnings : 0;
-            document.getElementById('warnInputB').value = existingData.teamB_warnings !== "" ? existingData.teamB_warnings : 0;
-          } else {
-            document.getElementById('scoreInputA').value = 0;
-            document.getElementById('scoreInputB').value = 0;
-            document.getElementById('warnInputA').value = 0;
-            document.getElementById('warnInputB').value = 0;
-          }
-          new bootstrap.Modal(document.getElementById('scoreModal')).show();
-        }).getMatchResultDetails(currentGrade, group, date, sport);
+        callAPI('getMatchResultDetails', { grade: currentGrade, group: group, date: date, sport: sport })
+          .then(existingData => {
+            if (existingData && existingData.scoreA !== undefined) {
+              document.getElementById('scoreInputA').value = existingData.scoreA !== "" ? existingData.scoreA : 0;
+              document.getElementById('scoreInputB').value = existingData.scoreB !== "" ? existingData.scoreB : 0;
+              document.getElementById('warnInputA').value = existingData.teamA_warnings !== "" ? existingData.teamA_warnings : 0;
+              document.getElementById('warnInputB').value = existingData.teamB_warnings !== "" ? existingData.teamB_warnings : 0;
+            } else {
+              document.getElementById('scoreInputA').value = 0;
+              document.getElementById('scoreInputB').value = 0;
+              document.getElementById('warnInputA').value = 0;
+              document.getElementById('warnInputB').value = 0;
+            }
+            new bootstrap.Modal(document.getElementById('scoreModal')).show();
+          });
       }
 
-      // STREAMING_CHUNK:분리된 출전 선수 등록 모달 로직...
       function openAttendanceModal(group, date, sport, matchStr) {
         let teams = matchStr.split('vs').map(t => t.trim());
         let teamA = teams[0] || 'A팀';
@@ -861,66 +886,68 @@
         document.getElementById('attHeaderA').innerText = teamA + " (" + sport + ")";
         document.getElementById('attHeaderB').innerText = teamB + " (" + sport + ")";
 
-        google.script.run.withSuccessHandler(function(existingData) {
-          let savedPlayers = existingData ? existingData.playerDetails : [];
-          loadClassSubTeamRosters('attRosterContainerA', classNumA, teamA, sport, savedPlayers);
-          loadClassSubTeamRosters('attRosterContainerB', classNumB, teamB, sport, savedPlayers);
+        callAPI('getMatchResultDetails', { grade: currentGrade, group: group, date: date, sport: sport })
+          .then(existingData => {
+            let savedPlayers = existingData && existingData.playerDetails ? existingData.playerDetails : [];
+            loadClassSubTeamRosters('attRosterContainerA', classNumA, teamA, sport, savedPlayers);
+            loadClassSubTeamRosters('attRosterContainerB', classNumB, teamB, sport, savedPlayers);
 
-          new bootstrap.Modal(document.getElementById('attendanceModal')).show();
-        }).getMatchResultDetails(currentGrade, group, date, sport);
+            new bootstrap.Modal(document.getElementById('attendanceModal')).show();
+          });
       }
 
       function loadClassSubTeamRosters(containerId, classNum, teamName, sport, savedPlayers) {
-        google.script.run.withSuccessHandler(function(roster) {
-          let container = document.getElementById(containerId);
-          if (!container) return;
-          
-          let targetKey = String(sport).replace(/[^가-힣a-zA-Z]/g, '').trim().substring(0, 2);
-          
-          let filteredAB = (roster || []).filter(p => {
-            let key = String(p.sport).replace(/[^가-힣a-zA-Z]/g, '').trim().substring(0, 2);
-            return key === targetKey;
+        callAPI('getClassRoster', { grade: currentGrade, classNum: classNum })
+          .then(roster => {
+            let container = document.getElementById(containerId);
+            if (!container) return;
+            
+            let targetKey = String(sport).replace(/[^가-힣a-zA-Z]/g, '').trim().substring(0, 2);
+            
+            let filteredAB = (roster || []).filter(p => {
+              let key = String(p.sport).replace(/[^가-힣a-zA-Z]/g, '').trim().substring(0, 2);
+              return key === targetKey;
+            });
+
+            let filteredC = (currentGrade === '2') ? (roster || []) : filteredAB;
+
+            if ((roster || []).length === 0) {
+              container.innerHTML = `<div class="p-3 text-muted text-center">${teamName} (${sport}) 등록 명단이 없습니다.</div>`;
+              return;
+            }
+
+            let html = `
+              <div class="row g-1">
+                <div class="col-4 border-end px-1">
+                  <div class="fw-bold small text-primary mb-1 text-center">📌 A팀</div>
+                  <table class="table table-sm table-hover text-center align-middle mb-0 att-table" style="font-size:0.75rem;">
+                    <thead><tr><th class="text-center">번호/이름</th><th style="width:42px;">카드</th></tr></thead>
+                    <tbody>${buildSubTeamRows(filteredAB, teamName, 'A팀', savedPlayers)}</tbody>
+                  </table>
+                </div>
+                <div class="col-4 border-end px-1">
+                  <div class="fw-bold small text-danger mb-1 text-center">📌 B팀</div>
+                  <table class="table table-sm table-hover text-center align-middle mb-0 att-table" style="font-size:0.75rem;">
+                    <thead><tr><th class="text-center">번호/이름</th><th style="width:42px;">카드</th></tr></thead>
+                    <tbody>${buildSubTeamRows(filteredAB, teamName, 'B팀', savedPlayers)}</tbody>
+                  </table>
+                </div>
+                <div class="col-4 px-1">
+                  <div class="fw-bold small text-success mb-1 text-center">📌 C팀 ${currentGrade === '2' ? '(혼성)' : ''}</div>
+                  <table class="table table-sm table-hover text-center align-middle mb-0 att-table" style="font-size:0.75rem;">
+                    <thead><tr><th class="text-center">번호/이름</th><th style="width:42px;">카드</th></tr></thead>
+                    <tbody>${buildSubTeamRows(filteredC, teamName, 'C팀', savedPlayers)}</tbody>
+                  </table>
+                </div>
+              </div>
+            `;
+            container.innerHTML = html;
+
+            (roster || []).forEach(p => {
+              let chk = container.querySelector(`.player-attendance[data-team="${teamName}"][data-num="${p.num}"]`);
+              if (chk) checkSubTeamDuplicate(chk);
+            });
           });
-
-          let filteredC = (currentGrade === '2') ? (roster || []) : filteredAB;
-
-          if ((roster || []).length === 0) {
-            container.innerHTML = `<div class="p-3 text-muted text-center">${teamName} (${sport}) 등록 명단이 없습니다.</div>`;
-            return;
-          }
-
-          let html = `
-            <div class="row g-1">
-              <div class="col-4 border-end px-1">
-                <div class="fw-bold small text-primary mb-1 text-center">📌 A팀</div>
-                <table class="table table-sm table-hover text-center align-middle mb-0 att-table" style="font-size:0.75rem;">
-                  <thead><tr><th class="text-center">번호/이름</th><th style="width:42px;">카드</th></tr></thead>
-                  <tbody>${buildSubTeamRows(filteredAB, teamName, 'A팀', savedPlayers)}</tbody>
-                </table>
-              </div>
-              <div class="col-4 border-end px-1">
-                <div class="fw-bold small text-danger mb-1 text-center">📌 B팀</div>
-                <table class="table table-sm table-hover text-center align-middle mb-0 att-table" style="font-size:0.75rem;">
-                  <thead><tr><th class="text-center">번호/이름</th><th style="width:42px;">카드</th></tr></thead>
-                  <tbody>${buildSubTeamRows(filteredAB, teamName, 'B팀', savedPlayers)}</tbody>
-                </table>
-              </div>
-              <div class="col-4 px-1">
-                <div class="fw-bold small text-success mb-1 text-center">📌 C팀 ${currentGrade === '2' ? '(혼성)' : ''}</div>
-                <table class="table table-sm table-hover text-center align-middle mb-0 att-table" style="font-size:0.75rem;">
-                  <thead><tr><th class="text-center">번호/이름</th><th style="width:42px;">카드</th></tr></thead>
-                  <tbody>${buildSubTeamRows(filteredC, teamName, 'C팀', savedPlayers)}</tbody>
-                </table>
-              </div>
-            </div>
-          `;
-          container.innerHTML = html;
-
-          (roster || []).forEach(p => {
-            let chk = container.querySelector(`.player-attendance[data-team="${teamName}"][data-num="${p.num}"]`);
-            if (chk) checkSubTeamDuplicate(chk);
-          });
-        }).getClassRoster(currentGrade, classNum);
       }
 
       function buildSubTeamRows(roster, teamName, subTeamTag, savedPlayers) {
@@ -981,11 +1008,9 @@
           let dupTag = r.querySelector('.dup-tag');
           
           tds.forEach(td => td.style.backgroundColor = '');
-
           if (rowChk && rowChk.checked) {
             tds.forEach(td => td.style.backgroundColor = '#fff9c4');
           }
-
           if (dupTag) {
             if (checkedCount === 2) dupTag.innerText = '✔';
             else if (checkedCount >= 3) dupTag.innerText = '✔✔';
@@ -996,12 +1021,8 @@
 
       function resetAttendanceForm() {
         if (confirm("현재 체크된 모든 출전 및 카드 기록을 초기화하시겠습니까? (저장해야 반영됩니다)")) {
-          document.querySelectorAll('#attendanceModal .player-attendance').forEach(chk => {
-            chk.checked = false;
-          });
-          document.querySelectorAll('#attendanceModal .player-card').forEach(sel => {
-            sel.value = 'none';
-          });
+          document.querySelectorAll('#attendanceModal .player-attendance').forEach(chk => chk.checked = false);
+          document.querySelectorAll('#attendanceModal .player-card').forEach(sel => sel.value = 'none');
           document.querySelectorAll('#attendanceModal tr[data-class-team]').forEach(r => {
             let tds = r.querySelectorAll('td');
             tds.forEach(td => td.style.backgroundColor = '');
@@ -1011,7 +1032,6 @@
         }
       }
 
-      // STREAMING_CHUNK:최종 결과 전송 및 리셋...
       function submitScoreResult() {
         let matchData = {
           group: currentMatchModal.group,
@@ -1025,13 +1045,14 @@
           teamB_warnings: parseInt(document.getElementById('warnInputB').value) || 0
         };
 
-        google.script.run.withSuccessHandler(function(res) {
-          if(res) alert(res.message);
-          if (res && res.success) {
-            bootstrap.Modal.getInstance(document.getElementById('scoreModal')).hide();
-            loadGradeData(currentGrade);
-          }
-        }).saveDetailedMatchResult(currentGrade, matchData);
+        callAPI('saveDetailedMatchResult', { grade: currentGrade, matchData: matchData }, 'POST')
+          .then(res => {
+            if(res) alert(res.message);
+            if (res && res.success) {
+              bootstrap.Modal.getInstance(document.getElementById('scoreModal')).hide();
+              loadGradeData(currentGrade);
+            }
+          });
       }
 
       function submitAttendanceResult() {
@@ -1041,49 +1062,39 @@
           let subteam = chk.getAttribute('data-subteam');
           let num = chk.getAttribute('data-num');
           let name = chk.getAttribute('data-name');
-          
           let cardSelect = document.querySelector(`#attendanceModal .player-card[data-team="${team}"][data-subteam="${subteam}"][data-num="${num}"]`);
           
           playerDetails.push({ 
-            team: team, 
-            subTeam: subteam, 
-            num: num, 
-            name: name, 
-            isAttended: chk.checked, 
-            card: cardSelect ? cardSelect.value : 'none' 
+            team: team, subTeam: subteam, num: num, name: name, 
+            isAttended: chk.checked, card: cardSelect ? cardSelect.value : 'none' 
           });
         });
 
         let matchData = {
-          group: currentMatchModal.group,
-          date: currentMatchModal.date,
-          sport: currentMatchModal.sport,
-          teamA: currentMatchModal.teamA,
-          teamB: currentMatchModal.teamB,
-          playerDetails: playerDetails
+          group: currentMatchModal.group, date: currentMatchModal.date, sport: currentMatchModal.sport,
+          teamA: currentMatchModal.teamA, teamB: currentMatchModal.teamB, playerDetails: playerDetails
         };
 
-        google.script.run.withSuccessHandler(function(res) {
-          if(res) alert(res.message);
-          if (res && res.success) {
-            bootstrap.Modal.getInstance(document.getElementById('attendanceModal')).hide();
-          }
-        }).saveMatchAttendance(currentGrade, matchData);
+        callAPI('saveMatchAttendance', { grade: currentGrade, matchData: matchData }, 'POST')
+          .then(res => {
+            if(res) alert(res.message);
+            if (res && res.success) bootstrap.Modal.getInstance(document.getElementById('attendanceModal')).hide();
+          });
       }
 
       function resetMatchResult() {
         if (confirm("정말로 이 경기의 결과와 출전 기록을 모두 삭제하시겠습니까?")) {
-          google.script.run.withSuccessHandler(function(res) {
-            if(res) alert(res.message);
-            if (res && res.success) {
-              bootstrap.Modal.getInstance(document.getElementById('scoreModal')).hide();
-              loadGradeData(currentGrade);
-            }
-          }).resetMatchResult(currentGrade, currentMatchModal.group, currentMatchModal.date, currentMatchModal.sport);
+          callAPI('resetMatchResult', { grade: currentGrade, group: currentMatchModal.group, date: currentMatchModal.date, sport: currentMatchModal.sport }, 'POST')
+            .then(res => {
+              if(res) alert(res.message);
+              if (res && res.success) {
+                bootstrap.Modal.getInstance(document.getElementById('scoreModal')).hide();
+                loadGradeData(currentGrade);
+              }
+            });
         }
       }
 
-      // STREAMING_CHUNK:교사 편집 모드 설정...
       function toggleTeacherMode() {
         let toggleSwitch = document.getElementById('teacherModeToggle');
         let isChecked = toggleSwitch.checked;
@@ -1093,7 +1104,6 @@
           if (inputPw === TEACHER_PASSWORD) {
             alert("교사 인증에 성공했습니다.");
             document.querySelectorAll('.teacher-only').forEach(el => el.classList.remove('d-none'));
-            
             if (currentView === 'referee') {
               document.getElementById('scheduleUploadPanel').classList.add('d-none');
               document.getElementById('refereeUploadPanel').classList.remove('d-none');
@@ -1122,18 +1132,20 @@
       function saveDate(btn, rowIdx) {
         let tr = btn.closest('tr');
         let newDate = tr.querySelector('.date-input').value;
-        google.script.run.withSuccessHandler(function(res) {
-          if(res) alert(res.message);
-          loadScheduleData();
-        }).updateMatchDate(currentGrade, rowIdx, newDate);
+        callAPI('updateMatchDate', { grade: currentGrade, rowIdx: rowIdx, newDate: newDate }, 'POST')
+          .then(res => {
+            if(res) alert(res.message);
+            loadScheduleData();
+          });
       }
 
       function deleteScheduleRow(rowIdx) {
         if (confirm("해당 경기 일정 행을 삭제하시겠습니까?")) {
-          google.script.run.withSuccessHandler(function(res) {
-            if(res) alert(res.message);
-            if (res && res.success) loadScheduleData();
-          }).deleteScheduleRow(currentGrade, rowIdx);
+          callAPI('deleteScheduleRow', { grade: currentGrade, rowIdx: rowIdx }, 'POST')
+            .then(res => {
+              if(res) alert(res.message);
+              if (res && res.success) loadScheduleData();
+            });
         }
       }
 
@@ -1143,14 +1155,15 @@
         if (fileInput.files.length === 0) return alert("대진표 파일을 선택해 주세요.");
         let reader = new FileReader();
         reader.onload = function(e) {
-          google.script.run.withSuccessHandler(function(res) {
-            if(res) alert(res.message);
-            if (res && res.success) loadScheduleData();
-          }).uploadScheduleFile(currentGrade, group, e.target.result.split(',')[1]);
+          let base64Data = e.target.result.split(',')[1];
+          callAPI('uploadScheduleFile', { grade: currentGrade, group: group, fileData: base64Data }, 'POST')
+            .then(res => {
+              if(res) alert(res.message);
+              if (res && res.success) loadScheduleData();
+            });
         };
         reader.readAsDataURL(fileInput.files[0]);
       }
     </script>
   </body>
 </html>
-```eof
