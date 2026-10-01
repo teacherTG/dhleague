@@ -404,7 +404,7 @@
       // ★ 필수 설정: 구글 앱스 스크립트(웹앱) URL을 아래에 입력하세요.
       // (기존의 google.script.run 대신 이 URL을 통해 통신합니다)
       // =========================================================
-      const GAS_WEB_APP_URL = "여기에_구글_웹앱_URL을_붙여넣으세요"; 
+      const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzzOfjEHorOP-vLGzF5zlfxgohLLBNk4esYASqOWIfcGj-shMfjJERGDkZJTHQJDnAw/exec"; 
       
       let currentGrade = '2';
       let currentGroup = 'A';
@@ -417,7 +417,7 @@
 
       function callAPI(action, params = {}, method = 'GET') {
         return new Promise((resolve, reject) => {
-          if (GAS_WEB_APP_URL === "여기에_구글_웹앱_URL을_붙여넣으세요" || GAS_WEB_APP_URL === "") {
+          if (GAS_WEB_APP_URL === "https://script.google.com/macros/s/AKfycbzzOfjEHorOP-vLGzF5zlfxgohLLBNk4esYASqOWIfcGj-shMfjJERGDkZJTHQJDnAw/exec" || GAS_WEB_APP_URL === "") {
             alert("❌ 오류: 스크립트 상단에 GAS_WEB_APP_URL을 설정해야 합니다!");
             return reject("URL NOT SET");
           }
