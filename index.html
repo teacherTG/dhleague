@@ -125,7 +125,7 @@
                         <th>일자</th>
                         <th id="sport1Header">종목 1</th>
                         <th id="sport2Header">종목 2</th>
-                        <th>장소</th>
+                        <th>필로티</th>
                         <th class="teacher-only d-none">관리</th>
                       </tr>
                     </thead>
@@ -600,27 +600,31 @@
           let tr = document.createElement('tr');
           let s1 = currentGrade === '2' ? '얼티미트' : '풋살';
           let s2 = currentGrade === '2' ? '빅발리볼' : '넷볼';
+          const dateReady = /^\d{4}-\d{2}-\d{2}$/.test(row.date);
+          const disabled = dateReady ? '' : 'disabled title="날짜를 먼저 확정해 주세요"';
 
           tr.innerHTML = `
             <td>
               <span class="date-text">${row.date}</span>
-              <input type="date" class="form-control form-control-sm date-input d-none" value="${row.date}">
+              <input type="date" class="form-control form-control-sm date-input d-none" value="${dateReady ? row.date : ''}">
             </td>
             <td>
               <span class="badge bg-info text-dark mb-1" style="font-size: 15px;">${row.match1}</span><br>
+              ${row.result1 ? `<div class="small fw-bold mb-1">결과 ${row.result1.scoreA} : ${row.result1.scoreB}</div>` : ''}
               <div class="teacher-only ${isTeacher ? '' : 'd-none'} d-flex flex-column gap-1 mt-1 px-1">
-                <button class="btn btn-xs btn-outline-secondary fw-bold shadow-sm py-1" onclick="openAttendanceModal('${row.group}', '${row.date}', '${s1}', '${row.match1}')">👥 출전선수등록</button>
-                <button class="btn btn-xs btn-outline-primary fw-bold shadow-sm py-1" onclick="openScoreModal('${row.group}', '${row.date}', '${s1}', '${row.match1}')">📝 ${s1} 결과입력</button>
+                <button class="btn btn-xs btn-outline-secondary fw-bold shadow-sm py-1" ${disabled} onclick="openAttendanceModal('${row.group}', '${row.date}', '${s1}', '${row.match1}')">👥 출전선수등록</button>
+                <button class="btn btn-xs btn-outline-primary fw-bold shadow-sm py-1" ${disabled} onclick="openScoreModal('${row.group}', '${row.date}', '${s1}', '${row.match1}')">📝 ${s1} 결과입력</button>
               </div>
             </td>
             <td>
               <span class="badge bg-warning text-dark mb-1" style="font-size: 15px;">${row.match2}</span><br>
+              ${row.result2 ? `<div class="small fw-bold mb-1">결과 ${row.result2.scoreA} : ${row.result2.scoreB}</div>` : ''}
               <div class="teacher-only ${isTeacher ? '' : 'd-none'} d-flex flex-column gap-1 mt-1 px-1">
-                <button class="btn btn-xs btn-outline-secondary fw-bold shadow-sm py-1" onclick="openAttendanceModal('${row.group}', '${row.date}', '${s2}', '${row.match2}')">👥 출전선수등록</button>
-                <button class="btn btn-xs btn-outline-danger fw-bold shadow-sm py-1" onclick="openScoreModal('${row.group}', '${row.date}', '${s2}', '${row.match2}')">📝 ${s2} 결과입력</button>
+                <button class="btn btn-xs btn-outline-secondary fw-bold shadow-sm py-1" ${disabled} onclick="openAttendanceModal('${row.group}', '${row.date}', '${s2}', '${row.match2}')">👥 출전선수등록</button>
+                <button class="btn btn-xs btn-outline-danger fw-bold shadow-sm py-1" ${disabled} onclick="openScoreModal('${row.group}', '${row.date}', '${s2}', '${row.match2}')">📝 ${s2} 결과입력</button>
               </div>
             </td>
-            <td>${row.location || '강당'}</td>
+            <td>${row.location || '-'}</td>
             <td class="teacher-only ${isTeacher ? '' : 'd-none'}">
               <button class="btn btn-sm btn-outline-primary mb-1" onclick="toggleEditDate(this)">날짜수정</button>
               <button class="btn btn-sm btn-success save-btn d-none mb-1" onclick="saveDate(this, ${row.rowIdx})">저장</button>
@@ -1203,7 +1207,7 @@
         if (confirm("해당 경기 일정 행을 삭제하시겠습니까?")) {
           api.withSuccessHandler(function(res) {
             if(res) alert(res.message);
-            if (res && res.success) loadScheduleData();
+            if (res && res.success) loadGradeData(currentGrade);
           }).deleteScheduleRow(currentGrade, rowIdx);
         }
       }
@@ -1216,7 +1220,7 @@
         reader.onload = function(e) {
           api.withSuccessHandler(function(res) {
             if(res) alert(res.message);
-            if (res && res.success) loadScheduleData();
+            if (res && res.success) loadGradeData(currentGrade);
           }).uploadScheduleFile(currentGrade, group, e.target.result.split(',')[1]);
         };
         reader.readAsDataURL(fileInput.files[0]);
