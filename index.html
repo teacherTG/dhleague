@@ -125,7 +125,7 @@
                         <th>일자</th>
                         <th id="sport1Header">종목 1</th>
                         <th id="sport2Header">종목 2</th>
-                        <th>필로티</th>
+                        <th id="venueHeader">필로티</th>
                         <th class="teacher-only d-none">관리</th>
                       </tr>
                     </thead>
@@ -553,6 +553,7 @@
         currentGrade = grade;
         document.getElementById('sport1Header').innerText = grade === '2' ? '얼티미트 (남)' : '풋살 (남)';
         document.getElementById('sport2Header').innerText = grade === '2' ? '빅발리볼 (여)' : '넷볼 (여)';
+        document.getElementById('venueHeader').innerText = grade === '3' ? '강당' : '필로티';
 
         loadScheduleData();
         loadStandingsData();
